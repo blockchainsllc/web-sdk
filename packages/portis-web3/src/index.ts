@@ -351,7 +351,7 @@ export default class Portis {
 
     if (options.useIn3 === true) {
       //add the in3 provider to the engine
-      engine.addProvider(new In3Subprovider());
+      engine.addProvider(new In3Subprovider({ chainId: this.config.network.chainId }));
     } else if (!options.pocketDevId && !options.useIn3) {
       engine.addProvider({
         setEngine: _ => _,
