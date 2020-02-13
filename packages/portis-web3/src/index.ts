@@ -1,5 +1,6 @@
 import ProviderEngine from '@portis/web3-provider-engine';
 import CacheSubprovider from '@portis/web3-provider-engine/subproviders/cache.js';
+import In3Subprovider from '@portis/web3-provider-engine/subproviders/in3.js';
 import FixtureSubprovider from '@portis/web3-provider-engine/subproviders/fixture.js';
 import FilterSubprovider from '@portis/web3-provider-engine/subproviders/filters.js';
 import HookedWalletSubprovider from '@portis/web3-provider-engine/subproviders/hooked-wallet.js';
@@ -348,7 +349,10 @@ export default class Portis {
       }),
     );
 
-    if (!options.pocketDevId) {
+    if (options.useIn3 === true) {
+      //add the in3 provider to the engine
+      engine.addProvider(new In3Subprovider());
+    } else if (!options.pocketDevId && !options.useIn3) {
       engine.addProvider({
         setEngine: _ => _,
         handleRequest: async (payload, next, end) => {
