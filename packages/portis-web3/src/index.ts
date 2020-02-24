@@ -369,7 +369,7 @@ export default class Portis {
 
       //add the in3 subprovider to the engine
       engine.addProvider(new In3Subprovider(in3Config));
-    } else if (!options.pocketDevId && !options.useIn3) {
+    } else if (!options.pocketDevId) {
       engine.addProvider({
         setEngine: _ => _,
         handleRequest: async (payload, next, end) => {
