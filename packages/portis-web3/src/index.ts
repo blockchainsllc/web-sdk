@@ -66,6 +66,20 @@ export default class Portis {
     const newNetwork = networkAdapter(network, gasRelay);
     this.clearSubprovider(NonceSubprovider);
     this.clearSubprovider(CacheSubprovider);
+
+    if (this.config.network.nodeUrl == 'in3') {
+      const subprovider = this.provider._providers.find(subprovider => subprovider instanceof In3Subprovider);
+      this.provider.removeProvider(subprovider);
+    }
+
+    if (newNetwork.nodeUrl == 'in3') {
+      const in3Config = newNetwork;
+      delete in3Config.nodeUrl;
+
+      //add the in3 subprovider to the engine
+      engine.addProvider(new In3Subprovider(in3Config));
+    }
+
     this.config.network = newNetwork;
   }
 
@@ -349,9 +363,12 @@ export default class Portis {
       }),
     );
 
-    if (options.useIn3 === true) {
-      //add the in3 provider to the engine
-      engine.addProvider(new In3Subprovider({ chainId: this.config.network.chainId }));
+    if (this.config.network.nodeUrl === 'in3') {
+      const in3Config = this.config.network;
+      delete in3Config.nodeUrl;
+
+      //add the in3 subprovider to the engine
+      engine.addProvider(new In3Subprovider(in3Config));
     } else if (!options.pocketDevId && !options.useIn3) {
       engine.addProvider({
         setEngine: _ => _,
