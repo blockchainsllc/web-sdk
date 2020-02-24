@@ -77,7 +77,7 @@ export default class Portis {
       delete in3Config.nodeUrl;
 
       //add the in3 subprovider to the engine
-      engine.addProvider(new In3Subprovider(in3Config));
+      this.provider.addProvider(new In3Subprovider(in3Config));
     }
 
     this.config.network = newNetwork;
